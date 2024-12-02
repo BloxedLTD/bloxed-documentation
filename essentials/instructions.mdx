@@ -1,0 +1,114 @@
+---
+title: 'Instructions'
+description: 'Display inline code and code blocks'
+icon: 'code'
+---
+
+The following are the instructions used to determine the actions of the scraper. These can be used to navigate a page, send data and receive data.
+
+Each instruction contains an "action", such as click, wait and scroll. Most will also have a "variant" such as "single" and "double" for the click action.
+
+If the instruction references a specific item on the page, this can be done with the "selector" field. This can be either a CSS selector or XPath.
+
+#### Extraction
+```json
+    {
+        "action": "extraction",
+        "selector": {css selector/xpath|target},
+        "output": "example_output_key",
+        "start": 0,
+        "end": 20,
+        "crawl": true
+    }
+```
+
+**Selector** is used to reference the element on the page that you wish to extract from.
+
+**Target** is the part of the element you wish to extract, most of the time this will be **text**. Alternatively, any attribute can be extract with @{attribute_name}. For example @href will get any hrefs (urls) in an element.\
+ - **Shorthand** this can be appended to the selector with a pipe (|).
+ - **Longhand** this should be provided under the key, 'target'. e.g.
+```json
+    {
+        "action": "extraction",
+        "selector": ".textbox",
+        "target": "text",
+        "output": "example_output_key",
+        "range": "1:9"
+    }
+```
+
+**Output Key** is the key that the output will be assigned to in the output object.
+
+**Range** this **optional** field allows the extraction of multiple items at once that have the same selector. If no range is provided, it will return all results.
+This cant be provided in two ways. Shorthand and Longhand (shown above).
+ - **Shorthand** is provided under the key 'range' with colon seperated values. e.g.
+```json
+    {
+        "action": "extraction",
+        "selector": {css selector/xpath|type},
+        "output": "example_output_key",
+        "range": "1:9"
+    }
+```
+
+#### Click
+```
+    {
+        "action": "click",
+        "variant": "single" or "double",
+        "selector": "{css_selector}"
+    }
+```
+#### Wait
+```
+    {
+        "action": "wait",
+        "variant": "timeout" or "element",
+        "duration": "{time in ms}", (only if variant is timeout)
+        "selector": "{css_selector}" (only if variant is element)
+    }
+```
+#### Screenshot
+```
+    {
+        "action": "screenshot",
+        "variant": "full" or "window" or "element",
+        "selector": "{css_selector}" (only if variant is element)
+    }
+```
+#### Scroll
+```
+    {
+        "action": "scroll",
+        "variant": "to" or "by",
+        "selector": "{css_selector}" (only if variant is to)
+        "delta_x": {pixel count}, (only if variant is by - can be emitted if zero)
+        "delta_y": {pixel count} (only if variant is by - can be emitted if zero)
+    }
+```
+#### Input
+```
+    {
+        "action": "input",
+        "variant": "fill" or "extend", (overwrite or extend existing content)
+        "selector": "{css_selector}",
+        "value": "{text_value}"
+    }
+```
+
+If no instructions are specified, the page HTML will be returned.
+
+#### Iterate
+```
+    {
+        "action": "Iterate",
+        "group_output": "{output name of the group}",
+        "parent_selector": "{css select of the parent group}",
+        "instructions": [{any instructions previously mentioned}]
+    }
+```
+
+In order to group the execution of instruction we have the ability to "iterate".
+
+This will execute the instructions provided within all instances of the parent selector.
+Any extraction done in this will be be output within that "group_output" key.
