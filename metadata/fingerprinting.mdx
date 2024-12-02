@@ -1,0 +1,34 @@
+---
+title: 'Fingerprinting'
+description: 'Fingerprinting Overview'
+icon: 'fingerprint'
+---
+
+**Geo**
+A geo-fingerprint is an object that exists globally to all users and is not scoped to a specific organization.
+
+This fingerprint can be used to generate residential, isp and datacenter proxies, along with geo-specific data such as the language/timezone of the browser.
+```json
+    {
+        "city_alias": "lon",
+        "country_id": "gb",
+        "geo_fingerprint_proxy_type": "isp"
+    }
+```
+
+**Device**
+The device fingerprint contains information about the fingerprint that the browser will use to try and replicate specific devices.
+This uses [apify's fingerprint suite](https://github.com/apify/fingerprint-suite) to modify: headers, screen parameters, gpu, cpu, memory size, fonts, webrtc and other navigator properties.
+
+A custom fingerprint object can be used:
+```json
+    {   
+        "device_fingerprint_name": "linux_desktop",
+        "device_fingerprint_description": "Fingerprint for linux desktop",
+        "device_fingerprint_device": "desktop",
+        "device_fingerprint_operating_system": "linux",
+        "device_fingerprint_browser": "chrome",
+        "device_fingerprint_locale": "en-GB",
+        "device_fingerprint_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.6668.89 Safari/537.36",
+    }
+```

@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Bloxed Documentation",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -18,12 +18,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:admin@bloxed.com"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://dashboard.bloxed.com"
   },
   "tabs": [
     {
@@ -36,39 +36,43 @@
       "name": "Documentation",
       "icon": "book-open-cover",
       "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": ["introduction", "quickstart"]
     },
     {
-      "group": "Essentials",
+      "group": "Metadata",
       "pages": [
-        "essentials/markdown",
-        "essentials/instructions",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "metadata/overview",
+        "metadata/proxy_generation",
+        "metadata/templates",
+        "metadata/fingerprinting"
       ]
+    },
+    {
+      "group": "Scraping",
+      "pages": ["pipeline/scraping/instructions"]
+    },
+    {
+      "group": "Processing",
+      "pages": [
+        "pipeline/processing/overview",
+        "pipeline/processing/data_cleaning"
+      ]
+    },
+    {
+      "group": "Egress",
+      "pages": ["pipeline/egress/overview", "pipeline/egress/webhook"]
     },
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Public API",
       "pages": [
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",
