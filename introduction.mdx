@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: 'Welcome to the home of your new documentation'
+description: 'Introduction to Bloxed'
 ---
 
 ```mermaid
@@ -13,53 +13,11 @@ description: 'Welcome to the home of your new documentation'
     end
     
     postgres --> queue_microservice
-    queue_microservice --> redis[(Redis)]
-    style redis fill:#d82c20,stroke:#333,stroke-width:2px
+    queue_microservice --> redis("<img style='position:absolute;' src='/images/redis.png' /> <div style='position:relative;z-index:100;color:white;padding:15px;padding-bottom: 75px;padding-top:0px;'>Redis</div>");
     redis --> scraping-core
     scraping-core ---> api
     api --> postgres[(Postgres)]
     style postgres fill:#0064a5,stroke:#333,stroke-width:2px
-```
-
-```json
-{
-    "metadata": {
-        "project_id": "279a431e-e94d-48c1-8289-ebc2d3ef56d2"
-    },
-    "pipeline": {
-        "scraping": {
-            "url": "https://www.johnlewis.com/browse/electricals/televisions/view-all-tvs/_/N-6srf",
-            "fingerprint": {
-                "proxy": "",
-                "proxy_type": "isp",
-                "country_id": "gb",
-                "language": "en"
-            },
-            "instructions": [
-                {
-                    "action": "wait",
-                    "variant": "timeout",
-                    "duration": 500
-                },
-                {
-                    "action": "click",
-                    "variant": "single",
-                    "selector": "[data-test='allow-all']"
-                },
-                {
-                    "action": "extraction",
-                    "selector": "[data-test='product-card-price']|text",
-                    "output": "price"
-                },
-                {
-                    "action": "extraction",
-                    "selector": "[data-test='product-image-container'] a[href]|@href",
-                    "output": "url"
-                }
-            ]
-        }
-    }
-}
 ```
 
 ```mermaid

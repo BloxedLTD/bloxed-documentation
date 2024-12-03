@@ -1,0 +1,603 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Bloxed Product API", "version": "2.0.0" },
+  "paths": {
+    "/private/user/{organization_id}/task/create": {
+      "post": {
+        "tags": ["Private", "User", "Task"],
+        "summary": "Create",
+        "operationId": "create_private_user__organization_id__task_create_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            },
+            "name": "organization_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TaskInput" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/user/{organization_id}/job/create": {
+      "post": {
+        "tags": ["Private", "User", "Job"],
+        "summary": "Create",
+        "operationId": "create_private_user__organization_id__job_create_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "type": "string", "title": "Organization Id" },
+            "name": "organization_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JobInput" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/user/template/llm_generate": {
+      "post": {
+        "tags": ["Private", "User", "Template"],
+        "summary": "Llm Generate",
+        "operationId": "llm_generate_private_user_template_llm_generate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LlmGenerateInput" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/utility/proxy/generate": {
+      "get": {
+        "tags": ["Private", "Utility", "Proxy"],
+        "summary": "Generate",
+        "operationId": "generate_private_utility_proxy_generate_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Country Id",
+              "default": "us"
+            },
+            "name": "country_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Proxy Type",
+              "default": "datacenter"
+            },
+            "name": "proxy_type",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/utility/notify/output": {
+      "post": {
+        "tags": ["Private", "Utility", "Notify"],
+        "summary": "Output",
+        "operationId": "output_private_utility_notify_output_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TaskOutput" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/utility/analytics/fingerprint-test/query": {
+      "post": {
+        "tags": ["Private", "Utility", "Analytics"],
+        "summary": "Query",
+        "operationId": "query_private_utility_analytics_fingerprint_test_query_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/private/utility/analytics/fingerprint-test/chrome": {
+      "post": {
+        "tags": ["Private", "Utility", "Analytics"],
+        "summary": "Chrome",
+        "operationId": "chrome_private_utility_analytics_fingerprint_test_chrome_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/private/utility/analytics/fingerprint-test/fp": {
+      "post": {
+        "tags": ["Private", "Utility", "Analytics"],
+        "summary": "Fp",
+        "operationId": "fp_private_utility_analytics_fingerprint_test_fp_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/private/user/documentation/product-api_openapi.json": {
+      "get": {
+        "tags": ["Private", "Private"],
+        "summary": "Openapi",
+        "operationId": "openapi_private_user_documentation_product_api_openapi_json_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "title": "Use Cache",
+              "default": false
+            },
+            "name": "use_cache",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": { "description": "Not found" },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "HTTPBasic": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BrowserConfig": {
+        "properties": {
+          "name": { "type": "string", "title": "Name", "default": "chrome" },
+          "minVersion": {
+            "type": "integer",
+            "title": "Minversion",
+            "default": 0
+          },
+          "maxVersion": {
+            "type": "integer",
+            "title": "Maxversion",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "BrowserConfig"
+      },
+      "Fingerprint": {
+        "properties": {
+          "proxy": {
+            "type": "string",
+            "title": "Proxy",
+            "example": "http://user:password@192.168.1.1:8000"
+          },
+          "proxy_type": {
+            "type": "string",
+            "title": "Proxy Type",
+            "example": "residential"
+          },
+          "device": {
+            "type": "string",
+            "title": "Device",
+            "default": "desktop",
+            "example": "desktop"
+          },
+          "browser": {
+            "allOf": [{ "$ref": "#/components/schemas/BrowserConfig" }],
+            "title": "Browser",
+            "default": { "name": "chrome", "minVersion": 0, "maxVersion": 0 },
+            "example": {
+              "name": "chrome",
+              "minVersion": "80",
+              "maxVersion": "90"
+            }
+          },
+          "operating_system": {
+            "type": "string",
+            "title": "Operating System",
+            "default": "linux",
+            "example": "windows"
+          },
+          "user_agent": {
+            "type": "string",
+            "title": "User Agent",
+            "example": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+          },
+          "js_rendering": {
+            "type": "boolean",
+            "title": "Js Rendering",
+            "default": true,
+            "example": true
+          },
+          "strict": {
+            "type": "boolean",
+            "title": "Strict",
+            "default": false,
+            "example": false
+          },
+          "mock_web_rtc": {
+            "type": "boolean",
+            "title": "Mock Web Rtc",
+            "default": false,
+            "example": false
+          },
+          "country_id": {
+            "type": "string",
+            "title": "Country Id",
+            "default": "gb",
+            "example": "gb"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "default": "en",
+            "example": "en"
+          },
+          "images": {
+            "type": "boolean",
+            "title": "Images",
+            "default": true,
+            "example": true
+          },
+          "css": {
+            "type": "boolean",
+            "title": "Css",
+            "default": true,
+            "example": true
+          }
+        },
+        "type": "object",
+        "title": "Fingerprint"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "JobInput": {
+        "properties": {
+          "entrypoints": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Entrypoints"
+          },
+          "project_id": { "type": "string", "title": "Project Id" },
+          "template_id": { "type": "string", "title": "Template Id" },
+          "device_fingerprint_id": {
+            "type": "string",
+            "title": "Device Fingerprint Id"
+          },
+          "geo_fingerprint_id": {
+            "type": "string",
+            "title": "Geo Fingerprint Id"
+          },
+          "egress_configuration_id": {
+            "type": "string",
+            "title": "Egress Configuration Id"
+          },
+          "job_scheduled_datetime": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Job Scheduled Datetime"
+          },
+          "job_interval": { "type": "integer", "title": "Job Interval" },
+          "job_budget": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Job Budget"
+          },
+          "job_max_run_count": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Job Max Run Count"
+          },
+          "job_type": {
+            "type": "string",
+            "title": "Job Type",
+            "default": "batch"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entrypoints",
+          "template_id",
+          "geo_fingerprint_id",
+          "egress_configuration_id",
+          "job_budget",
+          "job_max_run_count"
+        ],
+        "title": "JobInput"
+      },
+      "LlmGenerateInput": {
+        "properties": {
+          "prompt": { "type": "string", "title": "Prompt" },
+          "url": { "type": "string", "title": "Url" },
+          "base_template": { "$ref": "#/components/schemas/TaskInput" }
+        },
+        "type": "object",
+        "required": ["prompt", "url"],
+        "title": "LlmGenerateInput"
+      },
+      "Metadata": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "device_fingerprint_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Device Fingerprint Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "geo_fingerprint_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Geo Fingerprint Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "template_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Template Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organization Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Job Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "job_run_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Job Run Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "task_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Task Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "task_class": {
+            "type": "string",
+            "title": "Task Class",
+            "example": "isp_js_enabled"
+          },
+          "task_bytes": {
+            "type": "integer",
+            "title": "Task Bytes",
+            "example": 1000
+          }
+        },
+        "type": "object",
+        "title": "Metadata"
+      },
+      "Pipeline": {
+        "properties": {
+          "scraping": { "$ref": "#/components/schemas/Scraping" },
+          "processing": {
+            "items": { "type": "object" },
+            "type": "array",
+            "title": "Processing",
+            "default": []
+          },
+          "formatting": {
+            "type": "object",
+            "title": "Formatting",
+            "default": {}
+          },
+          "egress": {
+            "items": { "type": "object" },
+            "type": "array",
+            "title": "Egress",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": ["scraping"],
+        "title": "Pipeline"
+      },
+      "Scraping": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "example": "https://www.example.com"
+          },
+          "fingerprint": { "$ref": "#/components/schemas/Fingerprint" },
+          "instructions": {
+            "items": { "type": "object" },
+            "type": "array",
+            "title": "Instructions"
+          }
+        },
+        "type": "object",
+        "required": ["url"],
+        "title": "Scraping"
+      },
+      "TaskInput": {
+        "properties": {
+          "metadata": { "$ref": "#/components/schemas/Metadata" },
+          "pipeline": { "$ref": "#/components/schemas/Pipeline" }
+        },
+        "type": "object",
+        "title": "TaskInput"
+      },
+      "TaskOutput": {
+        "properties": {
+          "metadata": { "$ref": "#/components/schemas/Metadata" },
+          "pipeline": { "$ref": "#/components/schemas/TaskOutputPipeline" },
+          "output": { "type": "object", "title": "Output" },
+          "error": { "type": "object", "title": "Error" }
+        },
+        "type": "object",
+        "required": ["metadata"],
+        "title": "TaskOutput"
+      },
+      "TaskOutputPipeline": {
+        "properties": {
+          "scraping": { "$ref": "#/components/schemas/TaskOutputScraping" }
+        },
+        "type": "object",
+        "required": ["scraping"],
+        "title": "TaskOutputPipeline"
+      },
+      "TaskOutputScraping": {
+        "properties": { "url": { "type": "string", "title": "Url" } },
+        "type": "object",
+        "required": ["url"],
+        "title": "TaskOutputScraping"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": { "HTTPBasic": { "type": "http", "scheme": "basic" } }
+  }
+}
