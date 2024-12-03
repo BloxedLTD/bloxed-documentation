@@ -4,5 +4,29 @@ description: 'Metadata Overview'
 icon: 'file-lines'
 ---
 
-Contains data specific to that task, for example the entrypoint (url) that you would like to be scraped.
-Additionally the project that you would like to associate the scrape with. If this is not provided the default project is used.
+Contains data specific to that task, for example the **url** of the page that you would like to scrape.
+#### Url
+```json
+"metadata": {
+    "url": "https://amazon.co.uk"
+}
+```
+
+#### Additional Information
+
+```json
+"metadata": {
+    "project_id": "0273e50f-088d-4d56-b3f3-2e39d4293ff5",
+    "device_fingerprint_id": "e79707cd-6b8f-4328-bd35-e3ebdf7a0bea",
+    "geo_fingerprint_id": "9fa06120-eb07-4426-913b-1657b28efd45",
+    "template_id": "0947c7fb-c13d-4a77-82fc-246cce01307c"
+}
+```
+
+The following:
+- **[Project](/api-reference/endpoint/template)** 
+- **[Device Fingerprint](/metadata/fingerprinting#device-fingerprint)** 
+- **[Geo Fingerprint](/metadata/fingerprinting#geo-fingerprint)** 
+- **[Template](/metadata/templates)**
+
+Can be referenced by their assigned ID. The user must be associated with the same Organization **except for a Geo Fingerprint**.

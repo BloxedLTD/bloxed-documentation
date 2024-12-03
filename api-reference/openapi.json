@@ -1547,10 +1547,10 @@
             "title": "Language",
             "type": "string"
           },
-          "mockWebRTC": {
+          "mock_web_rtc": {
             "default": false,
             "example": false,
-            "title": "Mockwebrtc",
+            "title": "mock_web_rtc",
             "type": "boolean"
           },
           "operating_system": {
