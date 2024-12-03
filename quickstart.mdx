@@ -3,6 +3,30 @@ title: 'Quickstart'
 description: 'Start scraping any website in under 5 minutes'
 ---
 
+The Bloxed Web Scraping Platform is segmented into four sections of our **[pipeline](/pipeline)** as shown below.
+
+```mermaid
+  flowchart LR
+    scraping[<a href='/pipeline/scraping/instructions'>Scraping</a>] --> processing
+    processing[<a href='/pipeline/processing'>Processing</a>] --> formatting[<a href='/pipeline/formatting'>Formatting</a>]
+    formatting --> egress[<a href='/pipeline/egress'>Egress</a>]
+```
+
+The **Scraping** section is where the **url** and **[fingerprint](/metadata/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
+
+The simplest form of web-scraping will only require the extraction instructions.
+
+These objects require **selector** and **output** fields.
+
+In this example you can see that we are extracting the **text** data from the \
+selector `[data-cy='price-recipe'] .a-offscreen`
+
+
+The format is a pipe seperated string `"css_selector|variant"`
+
+Variants include: **text**, **html**, @[attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes)
+
+
 ## Setup your task
 
 Learn how to create a task pipeline to scrape a site
@@ -22,35 +46,14 @@ Learn how to create a task pipeline to scrape a site
                     "output": "price"
                 }
             ]
-        },
-        "processing": [
-            {
-                "module": "data_cleaning",
-                "variant": "replace",
-                "old": "£",
-                "new": "",
-                "input": "price.[]"
-            },
-            {
-                "module": "data_cleaning",
-                "variant": "replace",
-                "old": ".",
-                "new": "",
-                "input": "price.[]"
-            },
-            {
-                "module": "data_cleaning",
-                "variant": "to_number",
-                "input": "price.[].[]"
-            }
-        ]
+        }
     }
 }
 ```
 
 <CardGroup>
 
-<Card title="Add a custom fingerprint" icon="fingerprint" href="/metadata/fingerprinting">
+<Card title="Add a custom fingerprint" icon="fingerprint" href="/metadata/fingerprint">
   Add a custom browser fingerprint to suite your needs.
 </Card>
 

@@ -3,7 +3,7 @@
   "name": "Bloxed Documentation",
   "logo": {
     "dark": "assets/bloxed_logo_white.png",
-    "light": "assets/bloxed_logo_white.png"
+    "light": "assets/bloxed_logo_dark.png"
   },
   "favicon": "assets/bloxed_logo_mark.svg",
   "colors": {
@@ -49,23 +49,28 @@
         "metadata/overview",
         "metadata/proxy_generation",
         "metadata/templates",
-        "metadata/fingerprinting"
+        "metadata/fingerprint"
       ]
     },
     {
-      "group": "Scraping",
-      "pages": ["pipeline/scraping/instructions"]
-    },
-    {
-      "group": "Processing",
+      "group": "Pipeline",
       "pages": [
-        "pipeline/processing/overview",
-        "pipeline/processing/data_cleaning"
+        {
+          "group": "Scraping",
+          "pages": ["pipeline/scraping/instructions"]
+        },
+        {
+          "group": "Processing",
+          "pages": [
+            "pipeline/processing/overview",
+            "pipeline/processing/data_cleaning"
+          ]
+        },
+        {
+          "group": "Egress",
+          "pages": ["pipeline/egress/overview", "pipeline/egress/webhook"]
+        }
       ]
-    },
-    {
-      "group": "Egress",
-      "pages": ["pipeline/egress/overview", "pipeline/egress/webhook"]
     },
     {
       "group": "API Documentation",
