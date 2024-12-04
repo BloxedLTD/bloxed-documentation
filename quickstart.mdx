@@ -13,6 +13,11 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
 ```
 
 ## Scraping
+**IMPORTANT**: Ensure you have created a user by using the [signup](api-reference/endpoint/user/signup) route. Then subsequently used the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
+Both the orgnaization ID and api bearer token will be required for submitting your task in the [task creation route](api-reference/endpoint/task/create).
+
+**Authorization**: Any of the following: [[Bearer Token](api-reference/endpoint/user/signin), [API key](api-reference/endpoint/api_key), [Session Cookie](api-reference/endpoint/user/signin)] can be used to authenticate with the API.
+
 ### Setting up your task
 
 The **scraping** section is where the **url** and **[fingerprint](/metadata/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
