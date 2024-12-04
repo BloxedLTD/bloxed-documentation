@@ -4,53 +4,8 @@ description: 'Data cleaning'
 icon: 'shower'
 ---
 
-Processing is an array of module objects.
-#### Data Cleaning:
-For **all** variants, the following are required: 
-- **input** (**string**) -> List of output keys from extraction
-- **output** (**string**) -> List of keys for new outputs, if left blank the inputs will be overwritten
-
-Optional:
-- Recurse (**bool**) -> Cleaning will recursively apply to all parts of the inputs. (**false** by default)
-
-##### Scoping:
-**Keys:** Named sections in a path (e.g., product, prices).\
-**Arrays:** Represent an entire array ([]).\
-**Indexes:** A specific position in an array (e.g., [0], [4]).\
-**Slices:** A range of indices in an array (e.g., [1:3]).
-
-For example:
-```json
-{
-    "products": {
-        "prices": ["$1.00","$5.00","$5.00", "$6.00", "$2.00"]
-    }
-}
-```
-
-To extract prices in the range 1-3. The scope would be: **products.prices.[1:3]**
-
-Or
-
-To scope all price elements. The scope would be: **products.prices.[]**
-
-A nested example:
-```json
-{
-    "products": [
-        [
-            "a", "b", "c"
-        ],
-        [
-            "d", "e", "f"
-        ]
-    ]
-}
-```
-To get the second element in the first product array would be: **products.[0].[1]**
-
 ##### Variants:
-##### **Get**:
+#### **Get**
 ```json
     {
         "module": "data_cleaning",
@@ -61,7 +16,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Split At**:
+#### **Split At**
 ```json
     {
         "module": "data_cleaning",
@@ -73,7 +28,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Slice**:
+#### **Slice**
 ```json
     {
         "module": "data_cleaning",
@@ -86,7 +41,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Length**:
+#### **Length**
 ```json
     {
         "module": "data_cleaning",
@@ -97,7 +52,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Flatten**:
+#### **Flatten**
 ```json
     {
         "module": "data_cleaning",
@@ -108,7 +63,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **ToLower**:
+#### **ToLower**
 ```json
     {
         "module": "data_cleaning",
@@ -119,7 +74,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **ToUpper**:
+#### **ToUpper**
 ```json
     {
         "module": "data_cleaning",
@@ -130,7 +85,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Strip**:
+#### **Strip**
 ```json
     {
         "module": "data_cleaning",
@@ -142,7 +97,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Split By**:
+#### **Split By**
 ```json
     {
         "module": "data_cleaning",
@@ -154,7 +109,7 @@ To get the second element in the first product array would be: **products.[0].[1
         "outputs": []
     }
 ```
-##### **Replace**:
+#### **Replace**
 ```json
     {
         "module": "data_cleaning",

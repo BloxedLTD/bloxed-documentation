@@ -5,3 +5,47 @@ icon: 'list'
 ---
 
 Processing is an array of module objects.
+
+#### Required Fields
+For **all** variants, the following are required: 
+- **input** (**string**) -> List of output keys from extraction
+- **output** (**string**) -> List of keys for new outputs, if left blank the inputs will be overwritten
+
+#### Optional Fields
+- Recurse (**bool**) -> Cleaning will recursively apply to all parts of the inputs. (**false** by default)
+
+#### Scoping
+**Keys:** Named sections in a path (e.g., product, prices).\
+**Arrays:** Represent an entire array ([]).\
+**Indexes:** A specific position in an array (e.g., [0], [4]).\
+**Slices:** A range of indices in an array (e.g., [1:3]).
+
+#### Example
+```json
+{
+    "products": {
+        "prices": ["$1.00","$5.00","$5.00", "$6.00", "$2.00"]
+    }
+}
+```
+
+To extract prices in the range 1-3. The scope would be: **products.prices.[1:3]**
+
+Or
+
+To scope all price elements. The scope would be: **products.prices.[]**
+
+#### Nested example
+```json
+{
+    "products": [
+        [
+            "a", "b", "c"
+        ],
+        [
+            "d", "e", "f"
+        ]
+    ]
+}
+```
+To get the second element in the first product array would be: **products.[0].[1]**
