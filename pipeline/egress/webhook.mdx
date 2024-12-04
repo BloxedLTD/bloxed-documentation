@@ -20,6 +20,25 @@ All fields will either contain extracted data or an error object. (If in/out the
 **Output** contains the mappings described in the extraction rules during task creation.
 These map to a list that contains the extracted data.
 
+For example:
+```json
+    {
+        "price": [
+            "£899.00",
+            "£1,199.00",
+            "£699.00",
+            ...
+        ],
+        "url": [
+            "/samsung",
+            "/philips",
+            "/sony-bravia",
+            ...
+        ]
+    }
+```
+
+
 #### Error Object:
 ```go
     type OutputError struct {
@@ -30,19 +49,11 @@ These map to a list that contains the extracted data.
 
 **Error** will contain any error that has occurred from egress modules. Otherwise no data should show.
 
+For example:
 ```json
-    {
-        "price": [
-            "£899.00\n£799.00",
-            "£1,199.00",
-            "£699.00\n£679.00",
-            ...
-        ],
-        "url": [
-            "/samsung-qe43qn90d-2024-neo-qled-hdr-4k-ultra-hd-smart-tv-43-inch-with-tvplus-dolby-atmos-titan-black",
-            "/philips-65oled759-2024-oled-hdr-4k-ultra-hd-smart-tv-65-inch-with-freeview-play-ambilight-dolby-atmos-black/p112070912#citrusAdId=display_K6JA3OhNyQLLf5OH_jo-EU6X74sKCwoJMTEyMDcwOTEyEgIIARoMCI_KwrkGEO6srpQDIgIIAQ==",
-            "/sony-bravia-kd55x75wl-led-hdr-4k-ultra-hd-smart-google-tv-55-inch-with-youview-freesat-hd-dolby-atmos-black/p110493929#citrusAdId=display_01vtABCrY9LA5KopSrMSYEF8p40KCwoJMTEwNDkzOTI5EgIIARoMCI_KwrkGELj1rpQDIgIIAQ==",
-            ...
-        ]
-    }
+{
+    "error": "Unprocessable Entity",
+    "message": "[{'loc': ('body', 'pipeline', 'scraping', '__root__'), 'msg': '[0].action: unknown variant `iterates`, expected one of `click`, `wait`, `scroll`, `input`, `get_url`, `screenshot`, `iterate`, `extraction` at line 1 column 22', 'type': 'value_error'}]",
+    "error_id": "d4a502ce-162d-4893-9e41-3d59d25100e5"
+}
 ```
