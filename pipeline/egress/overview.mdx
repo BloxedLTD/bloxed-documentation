@@ -1,9 +1,20 @@
 ---
 title: 'Overview'
-description: 'Overview of egress'
+description: 'Send your finished scrape to a variety of external platforms'
 icon: 'list'
 ---
 
-Currently there is only a webhook module.
+Under the key:
+```json
+{
+    "egress": [
+        {
+            "module": "{egress module name}"
+            ...
+        }
+    ]
+}
+```
+
 #### Modules:
-##### Webhook:
+- [webhook](pipeline/egress/webhook)

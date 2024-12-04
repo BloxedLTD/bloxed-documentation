@@ -3,26 +3,20 @@ title: Introduction
 description: 'Introduction to Bloxed'
 ---
 
-```mermaid
-  flowchart LR
-    subgraph scraping-core
-        direction TB
-        top1[controller] --> bottom1[scraper]
-        top1[controller] --> bottom2[processing]
-        top1[controller] --> bottom3[egress]
-    end
-    
-    postgres --> queue_microservice
-    queue_microservice --> redis("<img style='position:absolute;' src='/images/redis.png' /> <div style='position:relative;z-index:100;color:white;padding:15px;padding-bottom: 75px;padding-top:0px;'>Redis</div>");
-    redis --> scraping-core
-    scraping-core ---> api
-    api --> postgres[(Postgres)]
-    style postgres fill:#0064a5,stroke:#333,stroke-width:2px
-```
+A performant and configurable scraping platform with untrackable fingerprinting.
+Written in: Rust, Golang, Python and Typescript. Postgres and Redis stack are used for data stores.
 
-```mermaid
-  flowchart LR
-    scraping/extraction --> processing
-    processing --> formatting
-    formatting --> egress
-```
+**Tasks** provide a simple method of scraping and instantly getting the result.
+
+**In/Out** Scraping provides the extracted data as a response to the inital API request.
+
+On user sign-up, an **organization** is created and the user is assigned as the 'owner'.
+
+All interactions related to that organization with the API must use the organization_id within the route.
+
+A 'default' project is also generated for each organization on creation. This is used by default when one is not provided for scraping.
+
+## Organizations:
+- Currently there is a one-to-one relationship with users to organizations. For every user, they are the owner and member of a single organization.
+- All payment and address information is associated with the organization, not the user. Although it must be provided on user creation.
+- Currently all notifications are scoped to the owner of the organization only.

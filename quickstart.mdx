@@ -12,23 +12,59 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
     formatting --> egress[<a href='/pipeline/egress'>Egress</a>]
 ```
 
-The **Scraping** section is where the **url** and **[fingerprint](/metadata/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
+## Scraping
+### Setting up your task
+
+The **scraping** section is where the **url** and **[fingerprint](/metadata/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
 
 The simplest form of web-scraping will only require the extraction instructions.
 
 These objects require **selector** and **output** fields.
 
-In this example you can see that we are extracting the **text** data from the \
-selector `[data-cy='price-recipe'] .a-offscreen`
+#### Fingerprint
+[Fingerprinting](/metadata/fingerprint) can be used to alter a variety of parameters when scraping.
+For this example we would just like to generate a residential proxy based in Great Britain. Here is how we would do this:
+```json
+{
+  "proxy_type": "residential",
+  "country_id": "gb"
+}
+```
 
+#### Selector
+In the following example you can see that we are extracting the **text** data from the \
+selector `[data-cy='price-recipe'] .a-offscreen`
 
 The format is a pipe seperated string `"css_selector|variant"`
 
+Giving us the full selector: `"selector": "[data-cy='price-recipe'] .a-offscreen|text"`
+
+#### Variant
+
 Variants include: **text**, **html**, @[attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes)
 
-## Setting up your task
+For the HTML: `<h1 id="example" href="https://example.com">Hello World</h1>`
 
-Learn how to create a task pipeline to scrape a site
+HTML would return the entire element.
+
+TEXT would return: "Hello World"
+
+@href would return: "https://example.com"
+
+#### Output
+This is the key where the data will be assigned, once output.
+For Example: `"output": "price"` would return:
+```json
+{
+    "price": [
+        "£429.99",
+        ...
+    ]
+}
+```
+
+
+Putting this all together we get:
 ```json
 {
     "pipeline": {
@@ -113,6 +149,7 @@ Our output now looks like this:
 
 ### What if you want the **title** and **price** from each product?
 We need to use the [iterate](pipeline/scraping/instructions#iterate) instruction.
+This instruction will execute a list of sub-instructions (extraction rules) that exists under the parent selector provided.
 
 ```json
 {
@@ -161,41 +198,20 @@ This is our new output:
                 "Featured from Amazon brands \nPanasonic TX-65MX800B, 65 Inch 4K Ultra HD LED Smart 2023 TV, High Dynamic Range (HDR), Dolby Atmos & Dolby Vision, Fire TV, Prime Video, Alexa, Netflix, Black"
             ]
         },
-        {
-            "price": [
-                "£189.00"
-            ],
-            "title": [
-                "TCL 40SF540K 40-inch FHD Smart Television - HDR & HLG-Dolby Audio-DTS Virtual X/DTS-HD-Metal Bezel-less-Dual-band Wifi 5-with Fire OS 7 system"
-            ]
-        },
-        {
-            "price": [
-                "£279.98"
-            ],
-            "title": [
-                "Hisense 40 Inch Smart TV 40A4NTUK - FHD Resolution, Natural Colour Enhancer, DTS Virtual:X & Dolby Audio, AI Sports Mode, VIDAA OS with Youtube, Netflix and Disney+ and Freeview Play (2024 Model)"
-            ]
-        },
-        {
-            "price": [
-                "£199.00"
-            ],
-            "title": [
-                "Hisense 40 Inch Smart TV 40E4NTUK - FHD Resolution, Natural Colour Enhancer, DTS Virtual:X & Dolby Audio, AI Sports Mode, VIDAA OS with Youtube, Netflix and Disney+ and Freeview Play (2024 Model)"
-            ]
-        }
+        ...
     ]
 }
 ```
-
+## Processing
 ### What if we wanted to remove certain characters?
 
 [Processing](pipeline/processing) is a stage of the pipeline where manipulation of the extracted data can take place. This is provided as a list of processing module objects.
 
 For example to **remove** characters we must use the [replace](pipeline/processing/data_cleaning#replace) variant of the [data_cleaning](pipeline/processing/data_cleaning) module.
 
-Below we are:
+A full list of supported modules is provided [here](pipeline/processing).
+
+In the example below we are:
 - Replacing "," and "£" characters with an empty string "" for every element in the price array within each product.
 - Replacing newline "\n" characters with an empty string "" for every element in the title array within each product.
 
@@ -225,6 +241,117 @@ Below we are:
 ]
 ```
 
+The following output is produced:
+```json
+{
+    "product": [
+        {
+            "price": [
+                "429.99"
+            ],
+            "title": [
+                "Featured from Amazon brands All-new Amazon Fire TV 43\" 4-Series 4K UHD smart TV, stream live TV, 2024 release"
+            ]
+        },
+        {
+            "price": [
+                "679.00"
+            ],
+            "title": [
+                "Featured from Amazon brands Panasonic TX-65MX800B, 65 Inch 4K Ultra HD LED Smart 2023 TV, High Dynamic Range (HDR), Dolby Atmos & Dolby Vision, Fire TV, Prime Video, Alexa, Netflix, Black"
+            ]
+        },
+        ...
+    ]
+}
+```
+
+## Egress
+### Webhook
+The simplest way to retrieve the output from your scrape (other than as a response from our API). Is to use the [webhook module](pipeline/egress/webhook) module.
+
+First go to https://webhook.site and get the webhook URL that is generated. (or use your own!)
+
+Next we can add an egress stage to our pipeline.
+```json
+"egress": [
+  {
+    "module": "webhook",
+    "url": "{insert webhook url here}",
+    "headers": {}
+  }
+]
+```
+
+Now any task submitted with the egress module will be sent to that webhook endpoint instead of as a response to the API request.
+
+Finally, here is our entire web-scraping pipeline request.
+
+As you can see it is very simple to scrape, process and egress from a seemingly complicated website. 
+
+```json
+{
+    "pipeline": {
+        "scraping": {
+            "url": "https://www.amazon.co.uk/tv/s?k=tv",
+            "fingerprint": {
+                "proxy_type": "residential",
+                "country_id": "gb"
+            },
+            "instructions": [
+                {
+                    "action": "iterate",
+                    "parent_selector": ".s-card-container",
+                    "group_output": "product",
+                    "range": "0:5",
+                    "instructions": [
+                        {
+                            "action": "extraction",
+                            "selector": "[data-cy='title-recipe']|text",
+                            "output": "title"
+                        },
+                        {
+                            "action": "extraction",
+                            "selector": "[data-cy='price-recipe'] .a-offscreen|text",
+                            "output": "price"
+                        }
+                    ]
+                }
+            ]
+        },
+        "processing": [
+            {
+                "module": "data_cleaning",
+                "variant": "replace",
+                "old": ",",
+                "new": "",
+                "input": "product.[].price.[]"
+            },
+            {
+                "module": "data_cleaning",
+                "variant": "replace",
+                "old": "£",
+                "new": "",
+                "input": "product.[].price.[]"
+            },
+            {
+                "module": "data_cleaning",
+                "variant": "replace",
+                "old": "\n",
+                "new": "",
+                "input": "product.[].title.[]"
+            }
+        ],
+      "egress": [
+        {
+          "module": "webhook",
+          "url": "{insert webhook url here}",
+          "headers": {}
+        }
+      ]
+    }
+}
+```
 
 <CardGroup>
 <Card title="Add a custom fingerprint" icon="fingerprint" href="/metadata/fingerprint">
