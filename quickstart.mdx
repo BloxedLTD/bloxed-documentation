@@ -13,18 +13,28 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
 ```
 
 ## Scraping
-**IMPORTANT**: 
-1. Create a user with the [signup](api-reference/endpoint/user/signup) route.
-2. Then use the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
-3. [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or api key.
+**Important:**
+<Steps>
+    <Step title="User Creation">
+        Create a user with the [signup](api-reference/endpoint/user/signup) route.
+    </Step>
+    <Step title="Get Organization ID">
+        Use the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
+    </Step>
+    <Step title="Sign In">
+        [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or api key.
+    </Step>
+</Steps>
 
+<Note>
 Both the **orgnaization ID** and **api bearer token** will be required to [create a task](api-reference/endpoint/task/create).
+</Note>
 
 **Authorization**: Any of the following: [[Bearer Token](api-reference/endpoint/user/login), [API key](api-reference/endpoint/api_key), [Session Cookie](api-reference/endpoint/user/login)] can be used to authenticate with the API.
 
 ### Setting up your task
 
-The **scraping** section is where the **url** and **[fingerprint](/metadata/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
+The **scraping** section is where the **url** and **[fingerprint](/pipeline/scraping/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
 ```json
 "pipeline": {
     "scraping": {
@@ -36,7 +46,7 @@ The **scraping** section is where the **url** and **[fingerprint](/metadata/fing
 ```
 
 #### Fingerprint
-[Fingerprinting](/metadata/fingerprint) can be used to alter a variety of parameters when scraping.
+[Fingerprinting](/pipeline/scraping/fingerprint) can be used to alter a variety of parameters when scraping.
 For this example we would just like to generate a residential proxy based in Great Britain. Here is how we would do this:
 ```json
 {
@@ -375,7 +385,7 @@ As you can see it is very simple to scrape, process and egress from a seemingly 
 ```
 
 <CardGroup>
-<Card title="Add a custom fingerprint" icon="fingerprint" href="/metadata/fingerprint">
+<Card title="Add a custom fingerprint" icon="fingerprint" href="/pipeline/scraping/fingerprint">
   Add a custom browser fingerprint to suite your needs.
 </Card>
 

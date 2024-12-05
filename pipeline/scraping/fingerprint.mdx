@@ -1,0 +1,76 @@
+---
+title: 'Fingerprint'
+description: 'Fingerprint Overview'
+icon: 'fingerprint'
+---
+
+- **proxy_type** (datacenter/residential)
+- **country_id** (gb/us...)
+- **user_agent**
+- **device** (mobile/desktop)
+- **browser** (`{"name": "(chrome/firefox/safari)", "minVersion": 99, "maxVersion": 100}`)
+- **operating_system** (linux/windows/mac)
+- **js_rendering** (true/false)
+- **css** (true/false)
+- **images** (true/false)
+
+<Note>
+By **default** a gb ISP proxy will be generated with a random fingerprint matching the latest chrome version. All JS Rendering and Resources will be **disabled**.
+</Note>
+
+For example:
+```json
+{
+    "fingerprint": {
+        "proxy_type": "residential",
+        "country_id": "gb"
+        "user_agent": "Mozilla/5.0 (U; Linux x86_64; en-US) AppleWebKit/600.31 (KHTML, like Gecko) Chrome/53.0.2027.214 Safari/600",
+        "device": "desktop",
+        "browser": {
+            "name": "chrome",
+            "minVersion": 99,
+            "maxVersion": 100
+        },
+        "operating_system": "linux",
+        "js_rendering": true,
+        "css": true,
+        "images": true
+    }
+}
+```
+
+<Note>
+The browser configuration **will only effect the fingerprint** that is generated, the actual browser will always be Chrome.
+</Note>
+
+#### Geo Fingerprint
+A **geo-fingerprint** is an object that exists globally to all users and is not scoped to a specific organization.
+
+This fingerprint can be used to generate proxies and set information data such as the country of the browser.
+```json
+{
+    "city_alias": "lon",
+    "country_id": "gb",
+    "geo_fingerprint_proxy_type": "isp"
+}
+```
+
+#### Device Fingerprint
+The **device** fingerprint contains information about the fingerprint that the browser will use to try and replicate specific devices.
+This uses [apify's fingerprint suite](https://github.com/apify/fingerprint-suite) to modify: headers, screen parameters, gpu, cpu, memory size, fonts, webrtc and other navigator properties.
+
+A custom fingerprint object can be used:
+```json
+{   
+    "device_fingerprint_name": "linux_desktop",
+    "device_fingerprint_description": "Fingerprint for linux desktop",
+    "device_fingerprint_device": "desktop",
+    "device_fingerprint_operating_system": "linux",
+    "device_fingerprint_browser": "chrome",
+    "device_fingerprint_locale": "en-GB",
+    "device_fingerprint_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.6668.89 Safari/537.36",
+}
+```
+
+
+Both the device & geo fingerprints can be created using the API and then referenced in the metadata during task creation.

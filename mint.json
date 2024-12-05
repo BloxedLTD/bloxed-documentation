@@ -48,8 +48,7 @@
       "pages": [
         "metadata/overview",
         "metadata/proxy_generation",
-        "metadata/templates",
-        "metadata/fingerprint"
+        "metadata/templates"
       ]
     },
     {
@@ -57,7 +56,10 @@
       "pages": [
         {
           "group": "Scraping",
-          "pages": ["pipeline/scraping/instructions"]
+          "pages": [
+            "pipeline/scraping/fingerprint",
+            "pipeline/scraping/instructions"
+          ]
         },
         {
           "group": "Processing",

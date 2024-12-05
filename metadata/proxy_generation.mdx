@@ -5,14 +5,13 @@ icon: 'user-secret'
 ---
 
 #### Manual proxy
-A proxy string can be provided in the format `{host}:{port}:{username}:{password}`
+A proxy string can be provided in the fingerprint as either: 
+- `{host}:{port}:{username}:{password}`
+- `http://{username}:{password}@{host}:{port}`
 
 
 #### Proxy Generation
-Alternatively a **proxy** generation data can be provided in the fingerprint to generate a proxy at scrape time.
-This contains the following information:
- - **Proxy Type** (isp/datacenter/residential)
- - **Country ID** (gb/us)
- - **City Alias** (lon/man)
+Alternatively a proxy can be generated from information provided in the fingerprint to get a proxy from our high quality pool.
 
-A **user agent** string can also be provided.
+ - **Proxy Type** (datacenter/residential)
+ - **Country ID** (lowercase [alpha-2 country code](https://www.iban.com/country-codes)) 
