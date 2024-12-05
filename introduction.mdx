@@ -4,19 +4,24 @@ description: 'Introduction to Bloxed'
 ---
 
 A performant and configurable scraping platform with untrackable fingerprinting.
+
 Written in: Rust, Golang, Python and Typescript. Postgres and Redis stack are used for data stores.
 
-**Tasks** provide a simple method of scraping and instantly getting the result.
+**Tasks**: Provide a simple method of scraping and instantly getting the result.
 
-**In/Out** Scraping provides the extracted data as a response to the inital API request.
+**In/Out Scraping**: Provides the extracted data as a response to the inital API request.
 
-On user sign-up, an **organization** is created and the user is assigned as the 'owner'.
+## Organizations
 
-All interactions related to that organization with the API must use the organization_id within the route.
+- On user sign-up, an **organization** is created and the user is assigned as the owner.
 
-A 'default' project is also generated for each organization on creation. This is used by default when one is not provided for scraping.
+- All interactions related to that organization with the API must use the organization_id within the route.
+  For example: `https://api.bloxed.com/1.0/private/user/{{organization_id}}/payment_method/search`
 
-## Organizations:
-- Currently there is a one-to-one relationship with users to organizations. For every user, they are the owner and member of a single organization.
-- All payment and address information is associated with the organization, not the user. Although it must be provided on user creation.
+- A default project is generated for each organization on creation. This is used when one is not provided for scraping.
+
+- Currently there is a **one-to-one** relationship with users to organizations. For every user, they are the owner and member of a single organization.
+
+- All payment and address information is associated with the organization, not the user.
+
 - Currently all notifications are scoped to the owner of the organization only.

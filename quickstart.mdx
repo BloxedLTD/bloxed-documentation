@@ -13,18 +13,27 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
 ```
 
 ## Scraping
-**IMPORTANT**: Ensure you have created a user by using the [signup](api-reference/endpoint/user/signup) route. Then subsequently used the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
-Both the orgnaization ID and api bearer token will be required for submitting your task in the [task creation route](api-reference/endpoint/task/create).
+**IMPORTANT**: 
+1. Create a user with the [signup](api-reference/endpoint/user/signup) route.
+2. Then use the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
+3. [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or api key.
 
-**Authorization**: Any of the following: [[Bearer Token](api-reference/endpoint/user/signin), [API key](api-reference/endpoint/api_key), [Session Cookie](api-reference/endpoint/user/signin)] can be used to authenticate with the API.
+Both the **orgnaization ID** and **api bearer token** will be required to [create a task](api-reference/endpoint/task/create).
+
+**Authorization**: Any of the following: [[Bearer Token](api-reference/endpoint/user/login), [API key](api-reference/endpoint/api_key), [Session Cookie](api-reference/endpoint/user/login)] can be used to authenticate with the API.
 
 ### Setting up your task
 
 The **scraping** section is where the **url** and **[fingerprint](/metadata/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
-
-The simplest form of web-scraping will only require the extraction instructions.
-
-These objects require **selector** and **output** fields.
+```json
+"pipeline": {
+    "scraping": {
+        "url": "{task url}"
+        "fingerprint": {fingerprint object},
+        "instructions": [list of instructions]
+    }
+}
+```
 
 #### Fingerprint
 [Fingerprinting](/metadata/fingerprint) can be used to alter a variety of parameters when scraping.
@@ -35,6 +44,10 @@ For this example we would just like to generate a residential proxy based in Gre
   "country_id": "gb"
 }
 ```
+
+Although Bloxed has many instructions, the simplest form of web-scraping will only require the [extraction](pipeline/scraping/instructions#extraction) instruction.
+
+These objects require a **selector**, **variant** and **output**.
 
 #### Selector
 In the following example you can see that we are extracting the **text** data from the \
@@ -91,7 +104,7 @@ Putting this all together we get:
 }
 ```
 
-Here is the output:
+Here is the output from the Bloxed API:
 ```json
 {
     "price": [
@@ -105,10 +118,11 @@ Here is the output:
     ]
 }
 ```
+### Ranges
+**What if we want to limit the number of elements scraped?**
 
-### What if we want to limit the number of elements scraped?
-**Range** can be provided either shorthand as colon seperated `"range": "0:5"` \
-or as a range object as shown below.
+**Range** can be provided shorthand as colon seperated `"range": "0:5"` \
+or longhand as a range object as shown below.
 ```json
 "range": {
   "start": 0,
@@ -151,8 +165,9 @@ Our output now looks like this:
     ]
 }
 ```
+### Iterate
+**What if you want the **title** and **price** from each product?**
 
-### What if you want the **title** and **price** from each product?
 We need to use the [iterate](pipeline/scraping/instructions#iterate) instruction.
 This instruction will execute a list of sub-instructions (extraction rules) that exists under the parent selector provided.
 
@@ -208,7 +223,8 @@ This is our new output:
 }
 ```
 ## Processing
-### What if we wanted to remove certain characters?
+### Data Cleaning
+**What if we wanted to remove certain characters?**
 
 [Processing](pipeline/processing) is a stage of the pipeline where manipulation of the extracted data can take place. This is provided as a list of processing module objects.
 
