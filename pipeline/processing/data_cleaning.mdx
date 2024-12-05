@@ -3,40 +3,51 @@ title: 'Data Cleaning'
 description: 'Operate on the extracted data to tidy it up'
 icon: 'shower'
 ---
+
+For all variants of the data cleaning module:
+- **Input** is a list of scopes to the data you would like to transform.
+- **Output** is a list of output key that you would like to write the new data to. (**one-to-one** relationship with inputs)
+
+<Info>
+If no output is given, the new data will overwrite the original input key
+</Info>
+
 #### **Get**
 ```json
     {
         "module": "data_cleaning",
         "variant": "get",
-        "inputs": [
+        "input": [
             "title.[0]"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Split At**
+**Index** determines the value to split at.
 ```json
     {
         "module": "data_cleaning",
         "variant": "split_at",
         "index": 1,
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Slice**
+**Start**/**End** determines the start and end of the slice.
 ```json
     {
         "module": "data_cleaning",
         "variant": "slice",
         "start": 1,
         "end": 5,
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Length**
@@ -44,10 +55,10 @@ icon: 'shower'
     {
         "module": "data_cleaning",
         "variant": "length",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Flatten**
@@ -55,10 +66,10 @@ icon: 'shower'
     {
         "module": "data_cleaning",
         "variant": "flatten",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **ToLower**
@@ -66,10 +77,10 @@ icon: 'shower'
     {
         "module": "data_cleaning",
         "variant": "to_lower",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **ToUpper**
@@ -77,46 +88,49 @@ icon: 'shower'
     {
         "module": "data_cleaning",
         "variant": "to_upper",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Strip**
+**Character** determines the character to be removed.
 ```json
     {
         "module": "data_cleaning",
         "variant": "strip",
         "character": "a",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Split By**
+**Character** determines the character to split on.
 ```json
     {
         "module": "data_cleaning",
         "variant": "split_by",
         "character": "q",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```
 #### **Replace**
+**Original** determines the character to be replaced with **new**.
 ```json
     {
         "module": "data_cleaning",
         "variant": "replace",
         "original": "q",
         "new": "a",
-        "inputs": [
+        "input": [
             "title"
         ],
-        "outputs": []
+        "output": []
     }
 ```

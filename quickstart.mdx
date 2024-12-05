@@ -13,15 +13,14 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
 ```
 
 ## Scraping
-**Important:**
 <Steps>
     <Step title="User Creation">
         Create a user with the [signup](api-reference/endpoint/user/signup) route.
     </Step>
-    <Step title="Get Organization ID">
+    <Step title="Get Your Organization ID">
         Use the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
     </Step>
-    <Step title="Sign In">
+    <Step title="Authenticate">
         [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or api key.
     </Step>
 </Steps>
@@ -55,6 +54,7 @@ For this example we would just like to generate a residential proxy based in Gre
 }
 ```
 
+### Extraction
 Although Bloxed has many instructions, the simplest form of web-scraping will only require the [extraction](pipeline/scraping/instructions#extraction) instruction.
 
 These objects require a **selector**, **variant** and **output**.
@@ -238,37 +238,34 @@ This is our new output:
 
 [Processing](pipeline/processing) is a stage of the pipeline where manipulation of the extracted data can take place. This is provided as a list of processing module objects.
 
-For example to **remove** characters we must use the [replace](pipeline/processing/data_cleaning#replace) variant of the [data_cleaning](pipeline/processing/data_cleaning) module.
+For example to **remove** characters we must use the [strip](pipeline/processing/data_cleaning#strip) variant of the [data_cleaning](pipeline/processing/data_cleaning) module.
 
 A full list of supported modules is provided [here](pipeline/processing).
 
 In the example below we are:
-- Replacing "," and "£" characters with an empty string "" for every element in the price array within each product.
-- Replacing newline "\n" characters with an empty string "" for every element in the title array within each product.
+- Stripping "," and "£" characters from every element in the price array within each product.
+- Stripping newline "\n" characters from every element in the title array within each product.
 
 ```json
 "processing": [
-  {
-      "module": "data_cleaning",
-      "variant": "replace",
-      "old": ",",
-      "new": "",
-      "input": "product.[].price.[]"
-  },
-  {
-      "module": "data_cleaning",
-      "variant": "replace",
-      "old": "£",
-      "new": "",
-      "input": "product.[].price.[]"
-  },
-  {
-      "module": "data_cleaning",
-      "variant": "replace",
-      "old": "\n",
-      "new": "",
-      "input": "product.[].title.[]"
-  }
+    {
+        "module": "data_cleaning",
+        "variant": "strip",
+        "character": ",",
+        "input": "product.[].price.[]"
+    },
+    {
+        "module": "data_cleaning",
+        "variant": "strip",
+        "character": "£",
+        "input": "product.[].price.[]"
+    },
+    {
+        "module": "data_cleaning",
+        "variant": "strip",
+        "character": "\n",
+        "input": "product.[].title.[]"
+    }
 ]
 ```
 
@@ -353,23 +350,20 @@ As you can see it is very simple to scrape, process and egress from a seemingly 
         "processing": [
             {
                 "module": "data_cleaning",
-                "variant": "replace",
-                "old": ",",
-                "new": "",
+                "variant": "strip",
+                "character": ",",
                 "input": "product.[].price.[]"
             },
             {
                 "module": "data_cleaning",
-                "variant": "replace",
-                "old": "£",
-                "new": "",
+                "variant": "strip",
+                "character": "£",
                 "input": "product.[].price.[]"
             },
             {
                 "module": "data_cleaning",
-                "variant": "replace",
-                "old": "\n",
-                "new": "",
+                "variant": "strip",
+                "character": "\n",
                 "input": "product.[].title.[]"
             }
         ],
