@@ -33,9 +33,9 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Dashboard",
+      "icon": "chart-line",
+      "url": "https://dashboard.bloxed.com"
     }
   ],
   "navigation": [
@@ -112,8 +112,8 @@
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "x": "https://x.com/bloxed",
+    "instagram": "https://instagram.com/bloxed",
+    "linkedin": "https://linkedin.com/company/bloxed"
   }
 }
