@@ -6,7 +6,9 @@ icon: 'shower'
 
 For all variants of the data cleaning module:
 - **Input** is a list of scopes to the data you would like to transform.
-- **Output** is a list of output key that you would like to write the new data to. (**one-to-one** relationship with inputs)
+- **Output** is a list of output key that you would like to write the new data to. (**one-to-one** relationship with inputs).
+- **Recurse** lets your recurse through every part of the elements (e.g. nested arrays).
+- **Error On Fail** lets you choose if failure of a data clean will cause an error to occur or just be ignored.
 
 <Info>
 If no output is given, the new data will overwrite the original input key
