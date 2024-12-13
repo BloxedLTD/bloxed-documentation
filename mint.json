@@ -72,7 +72,7 @@
         },
         {
           "group": "Egress",
-          "pages": ["pipeline/egress/overview", "pipeline/egress/webhook"]
+          "pages": ["pipeline/egress/overview", "pipeline/egress/webhook", "pipeline/egress/s3"]
         }
       ]
     },

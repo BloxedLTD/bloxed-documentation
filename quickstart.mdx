@@ -2,8 +2,9 @@
 title: 'Quickstart'
 description: 'Start scraping any website in under 5 minutes'
 ---
+You can use the Bloxed web-scraping platform to **scrape**, **process**, **format** and **egress** web data from a single API or SDK request.
 
-The Bloxed Web Scraping Platform is segmented into four sections of our **[pipeline](/pipeline)** as shown below.
+The **pipeline** of your request is segmented into four sections as shown below.
 
 ```mermaid
   flowchart LR
@@ -12,26 +13,93 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
     formatting --> egress[<a href='/pipeline/egress'>Egress</a>]
 ```
 
-## Scraping
+When creating a task you can provide instructions for each of these sections. 
+For example, you may want to **scrape** product reviews from Amazon, **process** the reviews with **sentiment analysis**, 
+format the **output** into a JSON object and then **egress** the result to an S3 Bucket.
+
+## Getting Started
 <Steps>
     <Step title="User Creation" icon="user">
-        Create a user with the [signup](api-reference/endpoint/user/signup) route.
+        Sign up to Bloxed from the [Dashboard](https://dashboard.bloxed.com) or with the [signup](api-reference/endpoint/user/signup) route.
     </Step>
     <Step title="Get Your Organization ID" icon="building">
-        Use the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
+        Fetch your **Organization ID** from the [Dashboard](https://dashboard.bloxed.com) or with the [retrieve](api-reference/endpoint/user/retrieve) route.
     </Step>
     <Step title="Authenticate" icon="lock">
-        [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or api key.
+        [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or API key.
     </Step>
 </Steps>
 
 <Note>
-Both the **orgnaization ID** and **api bearer token** will be required to [create a task](api-reference/endpoint/task/create).
+Both the **Orgnaization ID** and a method of **Authentication** are required to [create a task](api-reference/endpoint/task/create).
 </Note>
 
-**Authorization**: Any of the following: [[Bearer Token](api-reference/endpoint/user/login), [API key](api-reference/endpoint/api_key), [Session Cookie](api-reference/endpoint/user/login)] can be used to authenticate with the API.
+## Authentication
+Any of the following can be used to authenticate with the API: 
+ - [Bearer Token](api-reference/endpoint/user/login)
+ - [API key](api-reference/endpoint/api_key)
+ - [Session Cookie](api-reference/endpoint/user/login)
 
-### Setting up your task
+The prefered method is using an [API key](api-reference/endpoint/api_key) as shown below.
+
+| Key          | Value                                    |
+| ------------ | ---------------------------------------- |
+| APIPrivateKey| df1e3fffcafc47f14cdd4779cb39b431a76b4... |
+| APIPublicKey | eff79ec00150f7cbaf59cad7e68864fa4d6aa... |
+
+<CodeGroup>
+
+```python scrape.py
+import requests
+
+headers = {
+    "APIPrivateKey": "df1e3fffcafc47f14cdd4779cb39b431a76b4",
+    "APIPublicKey": "eff79ec00150f7cbaf59cad7e68864fa4d6aa"
+}
+
+response = requests.get("https://api.bloxed.com/1.0/private/user/1234/task/create", headers=headers)
+```
+
+```javascript scrape.js
+const axios = require('axios');
+
+const headers = {
+    APIPrivateKey: "df1e3fffcafc47f14cdd4779cb39b431a76b4",
+    APIPublicKey: "eff79ec00150f7cbaf59cad7e68864fa4d6aa"
+};
+
+axios.get("https://api.bloxed.com/1.0/private/user/1234/task/create", { headers })
+    .then(response => {
+        console.log("Response data:", response.data);
+    })
+    .catch(error => {
+        console.error("Error:", error.response ? error.response.data : error.message);
+    });
+```
+
+```java scrape.java
+public static void main(String[] args) {
+    URL url = new URL("https://api.bloxed.com/1.0/private/user/1234/task/create");
+
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    connection.setRequestMethod("GET");
+    connection.setRequestProperty("APIPrivateKey", "df1e3fffcafc47f14cdd4779cb39b431a76b4");
+    connection.setRequestProperty("APIPublicKey", "eff79ec00150f7cbaf59cad7e68864fa4d6aa");
+
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        System.out.println("Response Body: " + response.toString());
+    }
+}
+```
+
+</CodeGroup>
+
+## Setting up your task
 
 The **scraping** section is where the **url** and **[fingerprint](/pipeline/scraping/fingerprint)** are defined. In addition to this any **[instructions](/pipeline/scraping/instructions)** that are required to navigate the page and **[extract](/pipeline/scraping/instructions#extraction)** the data that you require.
 ```json
@@ -44,28 +112,44 @@ The **scraping** section is where the **url** and **[fingerprint](/pipeline/scra
 }
 ```
 
-#### Fingerprint
-[Fingerprinting](/pipeline/scraping/fingerprint) can be used to alter a variety of parameters when scraping.
-In this example we want to generate a residential proxy based in Great Britain:
+### Fingerprint
+A [fingerprint](/pipeline/scraping/fingerprint) can be used to alter a variety of parameters when web-scraping.
+
+In this example we want to change the location to Great Britain and to look like a Windows PC.
+
 ```json
 {
   "proxy_type": "residential",
-  "country_id": "gb"
+  "country_id": "gb",
+  "operating_system": "windows"
 }
 ```
 
-### Extraction
+More options are detailed [here](/pipeline/scraping/fingerprint)
+
+## Extraction
 Although Bloxed has many instructions, the simplest form of web-scraping will only require the [extraction](pipeline/scraping/instructions#extraction) instruction.
 
-These objects require a **selector**, **variant** and **output**.
+This allows you to extract information from a webpage by referencing a CSS selector for the element
+you need, along with the type of data (**text**, **inner HTML**, or an **attribute value**).
+
+For example if we wanted to extract the text from the css selector '[data-cy='price-recipe'] .a-offscreen'
+Our full select is: `"selector": "[data-cy='price-recipe'] .a-offscreen|text"`
+
+Assigning this to the output: `"title"`, the full object is:
+```json
+{
+    "action": "extraction",
+    "selector": "[data-cy='price-recipe'] .a-offscreen|text",
+    "output": "title"
+}
+```
 
 #### Selector
 In the following example you can see that we are extracting the **text** data from the \
 selector `[data-cy='price-recipe'] .a-offscreen`
 
 The format is a pipe seperated string `"css_selector|variant"`
-
-Giving us the full selector: `"selector": "[data-cy='price-recipe'] .a-offscreen|text"`
 
 #### Variant
 
@@ -91,11 +175,32 @@ For Example: `"output": "price"` would return:
     ]
 }
 ```
+## Advanced
+<CardGroup>
+<Card title="Ranges" icon="magnifying-glass" href="/pipeline/scraping/instructions#extraction">
+  Limit the amount of data extracted to a certain range
+</Card>
 
+<Card
+  title="Grouped Data"
+  icon="layer-group"
+  href="/pipeline/instructions#iterate"
+>
+  Use our iterate instruction to group data from the same parent selector
+</Card>
+</CardGroup>
 
 Putting this all together we get:
-```json
-{
+<CodeGroup>
+```python scrape.py
+import requests
+
+headers = {
+    "APIPrivateKey": "df1e3fffcafc47f14cdd4779cb39b431a76b4",
+    "APIPublicKey": "eff79ec00150f7cbaf59cad7e68864fa4d6aa"
+}
+
+payload = {
     "pipeline": {
         "scraping": {
             "url": "https://www.amazon.co.uk/tv/s?k=tv",
@@ -106,166 +211,53 @@ Putting this all together we get:
             "instructions": [
                 {
                     "action": "extraction",
-                    "selector": "[data-cy='price-recipe'] .a-offscreen|text",
-                    "output": "price"
+                    "selector": "[data-cy='title-recipe']|text",
+                    "output": "title"
                 }
             ]
         }
     }
 }
+
+response = requests.get("https://api.bloxed.com/1.0/private/user/1234/task/create", paylaod=payload, headers=headers)
 ```
+
+```javascript scrape.js
+```
+
+```java scrape.java
+```
+</CodeGroup>
 
 Here is the output from the Bloxed API:
 ```json
 {
-    "price": [
-        "£429.99",
-        "£679.00",
-        "£699.99",
-        "£189.00",
-        "£239.00",
-        "£159.00",
+    "title": [
+        "Featured from Amazon brands \nAll-new Amazon Fire TV 43\" 4-Series 4K UHD smart TV, stream live TV, 2024 release",
+        "Featured from Amazon brands \nPanasonic TX-65MX800B, 65 Inch 4K Ultra HD LED Smart 2023 TV, High Dynamic Range (HDR), Dolby Atmos & Dolby Vision, Fire TV, Prime Video, Alexa, Netflix, Black",
         ...
     ]
 }
 ```
-### Ranges
-**What if we want to limit the number of elements scraped?**
 
-**Range** can be provided shorthand as colon seperated `"range": "0:5"` \
-or longhand as a range object as shown below.
-```json
-"range": {
-  "start": 0,
-  "end": 5
-}
-```
-
-Our task object now looks like this:
-```json
-{
-    "pipeline": {
-        "scraping": {
-            "url": "https://www.amazon.co.uk/tv/s?k=tv",
-            "fingerprint": {
-                "proxy_type": "residential",
-                "country_id": "gb"
-            },
-            "instructions": [
-                {
-                    "action": "extraction",
-                    "selector": "[data-cy='price-recipe'] .a-offscreen|text",
-                    "output": "price",
-                    "range": "0:5"
-                }
-            ]
-        }
-    }
-}
-```
-
-Our output now looks like this:
-```json
-{
-    "price": [
-        "£429.99",
-        "£679.00",
-        "£699.99",
-        "£189.00",
-        "£239.00"
-    ]
-}
-```
-### Iterate
-**What if you want the **title** and **price** from each product?**
-
-We need to use the [iterate](pipeline/scraping/instructions#iterate) instruction.
-This instruction will execute a list of sub-instructions (extraction rules) that exists under the parent selector provided.
-
-```json
-{
-    "action": "iterate",
-    "parent_selector": ".s-card-container",
-    "group_output": "product",
-    "range": "0:5",
-    "instructions": [
-        {
-            "action": "extraction",
-            "selector": "[data-cy='title-recipe']|text",
-            "output": "title"
-        },
-        {
-            "action": "extraction",
-            "selector": "[data-cy='price-recipe'] .a-offscreen|text",
-            "output": "price"
-        }
-    ]
-}
-```
-
-As you can see in the iterate instruction, we require the parent selector of the group. In the example we have used `.s-card-container` which is the selector for each product.
-
-We have also chosen a **group output** name which is the key for our product output.
-
-Additionaly, exactly the same as before, we have specified the **range** of products that we would like to extract.
-
-This is our new output:
-```json
-{
-    "product": [
-        {
-            "price": [
-                "£429.99"
-            ],
-            "title": [
-                "Featured from Amazon brands \nAll-new Amazon Fire TV 43\" 4-Series 4K UHD smart TV, stream live TV, 2024 release"
-            ]
-        },
-        {
-            "price": [
-                "£679.00"
-            ],
-            "title": [
-                "Featured from Amazon brands \nPanasonic TX-65MX800B, 65 Inch 4K Ultra HD LED Smart 2023 TV, High Dynamic Range (HDR), Dolby Atmos & Dolby Vision, Fire TV, Prime Video, Alexa, Netflix, Black"
-            ]
-        },
-        ...
-    ]
-}
-```
 ## Processing
-### Data Cleaning
-**What if we wanted to remove certain characters?**
+### Translation
+**What if we wanted to translate the title to another langauge?**
 
 [Processing](pipeline/processing) is a stage of the pipeline where manipulation of the extracted data can take place. This is provided as a list of processing module objects.
 
-For example to **remove** characters we must use the [strip](pipeline/processing/data_cleaning#strip) variant of the [data_cleaning](pipeline/processing/data_cleaning) module.
+For example to translate text we must use the [strip](pipeline/processing/translation#google_translate) variant of the [data_cleaning](pipeline/processing/translation) module.
 
 A full list of supported modules is provided [here](pipeline/processing).
-
-In the example below we are:
-- Stripping "," and "£" characters from every element in the price array within each product.
-- Stripping newline "\n" characters from every element in the title array within each product.
 
 ```json
 "processing": [
     {
-        "module": "data_cleaning",
-        "variant": "strip",
-        "character": ",",
-        "input": "product.[].price.[]"
-    },
-    {
-        "module": "data_cleaning",
-        "variant": "strip",
-        "character": "£",
-        "input": "product.[].price.[]"
-    },
-    {
-        "module": "data_cleaning",
-        "variant": "strip",
-        "character": "\n",
-        "input": "product.[].title.[]"
+        "module": "translation",
+        "variant": "google_translate",
+        "from": "en",
+        "to": "fr",
+        "input": "title"
     }
 ]
 ```
@@ -273,53 +265,26 @@ In the example below we are:
 The following output is produced:
 ```json
 {
-    "product": [
-        {
-            "price": [
-                "429.99"
-            ],
-            "title": [
-                "Featured from Amazon brands All-new Amazon Fire TV 43\" 4-Series 4K UHD smart TV, stream live TV, 2024 release"
-            ]
-        },
-        {
-            "price": [
-                "679.00"
-            ],
-            "title": [
-                "Featured from Amazon brands Panasonic TX-65MX800B, 65 Inch 4K Ultra HD LED Smart 2023 TV, High Dynamic Range (HDR), Dolby Atmos & Dolby Vision, Fire TV, Prime Video, Alexa, Netflix, Black"
-            ]
-        },
+    "title": [
+        "En vedette des marques Amazon Tout nouveau téléviseur intelligent Amazon Fire TV 43 4-Series 4K UHD, diffusion en direct de la télévision, sortie en 2024",
+        "En vedette des marques Amazon Panasonic TX-65MX800B, Téléviseur intelligent LED 4K Ultra HD 65 pouces 2023, High Dynamic Range (HDR), Dolby Atmos et Dolby Vision, Fire TV, Prime Video, Alexa, Netflix, Noir",
         ...
     ]
 }
 ```
 
-## Egress
-### Webhook
-The simplest way to retrieve the output from your scrape (other than as a response from our API). Is to use the [webhook](pipeline/egress/webhook) module.
-
-First go to https://webhook.site and get the webhook URL that is generated. (or use your own)
-
-Next we can add an egress stage to our pipeline.
-```json
-"egress": [
-  {
-    "module": "webhook",
-    "url": "{insert webhook url here}",
-    "headers": {}
-  }
-]
-```
-
-Now any task submitted with the egress module will be sent to that webhook endpoint instead of as a response to the API request.
-
-Finally, here is our entire web-scraping pipeline request.
-
 As you can see it is very simple to scrape, process and egress from a seemingly complicated website. 
 
-```json
-{
+<CodeGroup>
+```python scrape.py
+import requests
+
+headers = {
+    "APIPrivateKey": "df1e3fffcafc47f14cdd4779cb39b431a76b4",
+    "APIPublicKey": "eff79ec00150f7cbaf59cad7e68864fa4d6aa"
+}
+
+payload = {
     "pipeline": {
         "scraping": {
             "url": "https://www.amazon.co.uk/tv/s?k=tv",
@@ -329,55 +294,33 @@ As you can see it is very simple to scrape, process and egress from a seemingly 
             },
             "instructions": [
                 {
-                    "action": "iterate",
-                    "parent_selector": ".s-card-container",
-                    "group_output": "product",
-                    "range": "0:5",
-                    "instructions": [
-                        {
-                            "action": "extraction",
-                            "selector": "[data-cy='title-recipe']|text",
-                            "output": "title"
-                        },
-                        {
-                            "action": "extraction",
-                            "selector": "[data-cy='price-recipe'] .a-offscreen|text",
-                            "output": "price"
-                        }
-                    ]
+                    "action": "extraction",
+                    "selector": "[data-cy='title-recipe']|text",
+                    "output": "title"
                 }
             ]
         },
         "processing": [
             {
-                "module": "data_cleaning",
-                "variant": "strip",
-                "character": ",",
-                "input": "product.[].price.[]"
-            },
-            {
-                "module": "data_cleaning",
-                "variant": "strip",
-                "character": "£",
-                "input": "product.[].price.[]"
-            },
-            {
-                "module": "data_cleaning",
-                "variant": "strip",
-                "character": "\n",
-                "input": "product.[].title.[]"
+                "module": "translation",
+                "variant": "google_translate",
+                "from": "en",
+                "to": "fr"
+                "input": "title"
             }
-        ],
-      "egress": [
-        {
-          "module": "webhook",
-          "url": "{insert webhook url here}",
-          "headers": {}
-        }
-      ]
+        ]
     }
 }
+
+response = requests.get("https://api.bloxed.com/1.0/private/user/1234/task/create", paylaod=payload, headers=headers)
 ```
+
+```javascript scrape.js
+```
+
+```java scrape.java
+```
+</CodeGroup>
 
 <CardGroup>
 <Card title="Add a custom fingerprint" icon="fingerprint" href="/pipeline/scraping/fingerprint">

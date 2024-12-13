@@ -3,23 +3,25 @@ title: Introduction
 description: 'Introduction to Bloxed'
 ---
 
-A **performant** and **configurable** scraping platform with **untrackable** fingerprinting.
+Bloxed is an **all-in-one web-scraping platform**. Making handling proxies, 
+fingerprinting, data-cleaning, parsing, and processing accessible through a low-code platform and robust SDKs.
 
-**Tasks**: Provide a simple method of scraping and instantly getting the result.
+#### In/Out Scraping 
+The Bloxed API and SDK takes in a **task pipeline** and returns the data you need from a webpage as the response to the initial request.
 
-**In/Out Scraping**: Provides the extracted data as a response to the inital API request.
+#### Task
+You can send Bloxed web-scraping instructions, it will then return the data you requested from that site in real-time.
 
 ## Organizations
+- Upon sign-up, a **personal Organization** is created and the User is assigned as the owner.
 
-- On user sign-up, an **organization** is created and the user is assigned as the owner.
+- All interactions related to that Organization with the API must use the organization_id within the route.
+  For example: `https://api.bloxed.com/1.0/private/user/{{organization_id}}/task/create`
 
-- All interactions related to that organization with the API must use the organization_id within the route.
-  For example: `https://api.bloxed.com/1.0/private/user/{{organization_id}}/payment_method/search`
+- A default **project** is generated for each Organization on creation. This is used automatically when not provided.
 
-- A default project is generated for each organization on creation. This is used when one is not provided for scraping.
+- Currently there is a **one-to-one** relationship with users to organizations. For every User, they are the owner and member of a single Organization.
 
-- Currently there is a **one-to-one** relationship with users to organizations. For every user, they are the owner and member of a single organization.
+- All payment and address information is associated with the Organization, not the User.
 
-- All payment and address information is associated with the organization, not the user.
-
-- Currently all notifications are scoped to the owner of the organization only.
+- All notifications are scoped to the owner of the Organization only.

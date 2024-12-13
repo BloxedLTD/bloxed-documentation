@@ -9027,7 +9027,7 @@
     },
     "/private/user/user/oauth_reset": {
       "post": {
-        "description": "This endpoint allows the disconnection of a linked Google OAuth account from the user Bloxed account. After invoking this function, the user linked Google OAuth id will be set to None in the database. Important api logging events are generated, and a notification is created for the user.\n",
+        "description": "This endpoint allows the disconnection of a linked Google OAuth account from the user Bloxed account. After invoking this function, the user linked Google OAuth id will be set to None in the database. Important API logging events are generated, and a notification is created for the user.\n",
         "requestBody": {
           "content": {
             "application/json": {
