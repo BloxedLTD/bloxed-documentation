@@ -14,13 +14,13 @@ The Bloxed Web Scraping Platform is segmented into four sections of our **[pipel
 
 ## Scraping
 <Steps>
-    <Step title="User Creation">
+    <Step title="User Creation" icon="user">
         Create a user with the [signup](api-reference/endpoint/user/signup) route.
     </Step>
-    <Step title="Get Your Organization ID">
+    <Step title="Get Your Organization ID" icon="building">
         Use the [retrieve](api-reference/endpoint/user/retrieve) route to fetch your **Organization ID**.
     </Step>
-    <Step title="Authenticate">
+    <Step title="Authenticate" icon="lock">
         [Sign in](api-reference/endpoint/user/login) to fetch the bearer token, cookie or api key.
     </Step>
 </Steps>
@@ -46,7 +46,7 @@ The **scraping** section is where the **url** and **[fingerprint](/pipeline/scra
 
 #### Fingerprint
 [Fingerprinting](/pipeline/scraping/fingerprint) can be used to alter a variety of parameters when scraping.
-For this example we would just like to generate a residential proxy based in Great Britain. Here is how we would do this:
+In this example we want to generate a residential proxy based in Great Britain:
 ```json
 {
   "proxy_type": "residential",
@@ -80,7 +80,8 @@ TEXT would return: "Hello World"
 @href would return: "https://example.com"
 
 #### Output
-This is the key where the data will be assigned, once output.
+This is the key where the data will be assigned to in the output.
+
 For Example: `"output": "price"` would return:
 ```json
 {
@@ -296,9 +297,9 @@ The following output is produced:
 
 ## Egress
 ### Webhook
-The simplest way to retrieve the output from your scrape (other than as a response from our API). Is to use the [webhook module](pipeline/egress/webhook) module.
+The simplest way to retrieve the output from your scrape (other than as a response from our API). Is to use the [webhook](pipeline/egress/webhook) module.
 
-First go to https://webhook.site and get the webhook URL that is generated. (or use your own!)
+First go to https://webhook.site and get the webhook URL that is generated. (or use your own)
 
 Next we can add an egress stage to our pipeline.
 ```json

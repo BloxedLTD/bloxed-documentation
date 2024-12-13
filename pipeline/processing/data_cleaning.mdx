@@ -7,52 +7,56 @@ icon: 'shower'
 For all variants of the data cleaning module:
 - **Input** is a list of scopes to the data you would like to transform.
 - **Output** is a list of output key that you would like to write the new data to. (**one-to-one** relationship with inputs).
-- **Recurse** lets your recurse through every part of the elements (e.g. nested arrays).
-- **Error On Fail** lets you choose if failure of a data clean will cause an error to occur or just be ignored.
+- **Recurse** allows for recursion through every part of the element (from the scope provided).
+- **Error On Fail** lets you choose if failure of a data clean (i.e an invalid index) will cause an error to occur or just be ignored.
 
 <Info>
 If no output is given, the new data will overwrite the original input key
 </Info>
 
-#### **Get**
+## **Types**
+### **ToNumber**
+Converts a string to an int.
+```json
+    {
+        "module": "data_cleaning",
+        "variant": "to_number",
+        "input": [
+            "title"
+        ],
+        "output": []
+    }
+```
+### **ToString**
+Converts an int to a string.
+```json
+    {
+        "module": "data_cleaning",
+        "variant": "to_string",
+        "input": [
+            "title"
+        ],
+        "output": []
+    }
+```
+## **Retrieve**
+### **Get**
+Fetches data from the scope provided.
 ```json
     {
         "module": "data_cleaning",
         "variant": "get",
         "input": [
-            "title.[0]"
-        ],
-        "output": []
-    }
-```
-#### **Split At**
-**Index** determines the value to split at.
-```json
-    {
-        "module": "data_cleaning",
-        "variant": "split_at",
-        "index": 1,
-        "input": [
             "title"
         ],
-        "output": []
+        "output": [],
+        "recurse": true,
+        "error_on_failure": true
     }
 ```
-#### **Slice**
-**Start**/**End** determines the start and end of the slice.
-```json
-    {
-        "module": "data_cleaning",
-        "variant": "slice",
-        "start": 1,
-        "end": 5,
-        "input": [
-            "title"
-        ],
-        "output": []
-    }
-```
-#### **Length**
+Fetches the length of the item at the scope provided
+### **Length**
+Fetches the length of the item at the scope provided.
 ```json
     {
         "module": "data_cleaning",
@@ -63,7 +67,9 @@ If no output is given, the new data will overwrite the original input key
         "output": []
     }
 ```
-#### **Flatten**
+## **Transformation**
+### **Flatten**
+'Squashes' lists at the scope provided into a single one.
 ```json
     {
         "module": "data_cleaning",
@@ -74,43 +80,8 @@ If no output is given, the new data will overwrite the original input key
         "output": []
     }
 ```
-#### **ToLower**
-```json
-    {
-        "module": "data_cleaning",
-        "variant": "to_lower",
-        "input": [
-            "title"
-        ],
-        "output": []
-    }
-```
-#### **ToUpper**
-```json
-    {
-        "module": "data_cleaning",
-        "variant": "to_upper",
-        "input": [
-            "title"
-        ],
-        "output": []
-    }
-```
-#### **Strip**
-**Character** determines the character to be removed.
-```json
-    {
-        "module": "data_cleaning",
-        "variant": "strip",
-        "character": "a",
-        "input": [
-            "title"
-        ],
-        "output": []
-    }
-```
-#### **Split By**
-**Character** determines the character to split on.
+### **Split By**
+Splits the list at the scope on the **Character** provided.
 ```json
     {
         "module": "data_cleaning",
@@ -122,7 +93,7 @@ If no output is given, the new data will overwrite the original input key
         "output": []
     }
 ```
-#### **Replace**
+### **Replace**
 **Original** determines the character to be replaced with **new**.
 ```json
     {

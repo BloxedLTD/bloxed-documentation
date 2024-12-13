@@ -109,6 +109,15 @@
         "api-reference/endpoint/api_key/retrieve",
         "api-reference/endpoint/api_key/search"
       ]
+    },
+    {
+      "group": "Project",
+      "pages": [
+        "api-reference/endpoint/project/create",
+        "api-reference/endpoint/project/retrieve",
+        "api-reference/endpoint/project/search",
+        "api-reference/endpoint/project/delete"
+      ]
     }
   ],
   "footerSocials": {
