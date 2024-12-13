@@ -65,7 +65,9 @@
           "group": "Processing",
           "pages": [
             "pipeline/processing/overview",
-            "pipeline/processing/data_cleaning"
+            "pipeline/processing/data_cleaning",
+            "pipeline/processing/translation",
+            "pipeline/processing/sentiment"
           ]
         },
         {
